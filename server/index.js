@@ -20,7 +20,13 @@ if (!process.env.MONGODB_URI) {
 }
 
 // Middlewares
-app.use(cors(process.env.CLIENT_BASE_URL));
+app.use(
+  cors({
+    origin: process.env.CLIENT_BASE_URL, // Frontend URL
+    methods: "GET,POST,PUT,DELETE",
+    allowedHeaders: "Content-Type,Authorization",
+  })
+);
 app.use(clerkMiddleware());
 app.use("/webhooks", webHookRoutes); // Raw body parser is used inside webhook.routes.js
 app.use(express.json()); // Only for non-raw JSON requests
@@ -50,7 +56,7 @@ app.use(function (req, res, next) {
 // app.get("/clerkAuth", requireAuth(), (req, res) => {
 //   res.status(200).json({message: "Protected Route"});
 // }); 
-*/ 
+*/
 
 // Routes
 app.use("/users", userRoutes);
