@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 const authenticator = async () => {
   try {
     const response = await fetch(
-      `${import.meta.env.VITE_API_URL}/posts/upload-auth`
+      `${import.meta.env.VITE_API_URL}/blogs/upload-auth`
     );
 
     if (!response.ok) {
@@ -41,7 +41,7 @@ const Upload = ({ children, type, setProgress, setData }) => {
 
   return (
     <IKContext
-      publicKey={import.meta.env.IK_PUBLIC_KEY}
+      publicKey={import.meta.env.VITE_IK_PUBLIC_KEY}
       urlEndpoint={import.meta.env.VITE_IK_URL_ENDPOINT}
       authenticator={authenticator}
     >

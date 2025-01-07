@@ -1,5 +1,8 @@
+import ImageKit from "imagekit";
 import Blog from "../models/blog.model.js";
 import User from "../models/user.model.js";
+import dotenv from "dotenv";
+dotenv.config();
 
 export const getBlogs = async (req, res) => {
   try {
@@ -35,7 +38,17 @@ export const createBlog = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    const newBlog = new Blog({ user: user._id, ...req.body });
+    let slug = req.body.title.replace(/ /g, "-").toLowerCase();
+    let existingBlog = await Blog.findOne({ slug });
+
+    let counter = 2;
+    while (existingBlog) {
+      slug = `${slug}-${counter}`;
+      existingBlog = await Blog.findOne({ slug });
+      counter++;
+    };
+
+    const newBlog = new Blog({ user: user._id, slug, ...req.body });
 
     await newBlog.save();
     res.status(201).json("Blog Created Successfully");
@@ -68,5 +81,21 @@ export const deleteBlog = async (req, res) => {
   } catch (error) {
     console.log("Error in deleteBlog Controller", error);
     res.status(500).json({ message: error.message });
+  }
+};
+
+const imagekit = new ImageKit({
+  urlEndpoint: process.env.IK_URL_ENDPOINT,
+  publicKey: process.env.IK_PUBLIC_KEY,
+  privateKey: process.env.IK_PRIVATE_KEY,
+});
+
+export const uploadAuth = async (req, res) => {
+  try {
+    const result = imagekit.getAuthenticationParameters();
+    res.send(result);
+  } catch (error) {
+    console.error("Error getting authentication parameters:", error);
+    res.status(500).send({ error: "Internal Server Error" });
   }
 };

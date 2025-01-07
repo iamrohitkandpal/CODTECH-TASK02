@@ -5,7 +5,7 @@ import { useSearchParams } from "react-router-dom";
 import axios from "axios";
 
 const fetchBlogs = async () => {
-  const res = await axios.get(`${import.meta.env.BASE_API_URL}/blogs`);
+  const res = await axios.get(`${import.meta.env.VITE_BASE_API_URL}/blogs`);
   return res.data;
 };
 
