@@ -1,16 +1,18 @@
 import React from 'react'
-import Image from './Image';
+import { format } from 'timeago.js';
 
-const SingleComment = () => {
+const SingleComment = ({comment}) => {
   return (
     <div className='p-4 bg-slate-50 rounded-xl mb-8'>
         <div className='flex items-center gap-4'>
-            <Image src="userImg.jpeg" className="w-10 h-10 rounded-full object-cover" w="40" />
-            <span className='font-medium'>John Doe</span>
-            <span className='text-sm text-gray-500'>2 days ago</span>
+            {comment.user.img && (
+              <img src={comment.user.img} className="w-10 h-10 rounded-full object-cover" />
+            )}
+            <span className='font-medium'>{comment.user.username}</span>
+            <span className='text-sm text-gray-500'>{format(comment.createdAt)}</span>
         </div>
         <p className='mt-4'>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dignissimos dolorum voluptatem aut optio asperiores, saepe in dolorem fugit beatae minima accusamus. Reiciendis, assumenda ipsa sapiente aut dolores magni alias inventore exercitationem labore voluptatibus modi, corrupti similique commodi quos impedit error.
+            {comment.desc}
         </p>
     </div>
   )

@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 const authenticator = async () => {
   try {
     const response = await fetch(
-      `${import.meta.env.VITE_API_URL}/blogs/upload-auth`
+      `${import.meta.env.VITE_BASE_API_URL}/blogs/upload-auth`
     );
 
     if (!response.ok) {
@@ -13,6 +13,12 @@ const authenticator = async () => {
       throw new Error(
         `Request failed with status ${response.status}: ${errorText}`
       );
+    }
+
+    const contentType = response.headers.get("content-type");
+    if (!contentType || !contentType.includes("application/json")) {
+      const errorText = await response.text();
+      throw new Error(`Unexpected response format: ${errorText}`);
     }
 
     const data = await response.json();

@@ -15,7 +15,7 @@ const blogSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    id: {
+    slug: {
       type: String,
       required: true,
       unique: true,
