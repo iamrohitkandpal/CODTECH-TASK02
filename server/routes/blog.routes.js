@@ -1,12 +1,12 @@
 import express from 'express';
-import { createBlog, getBlog, getBlogs } from '../controllers/blog.controller.js';
+import { createBlog, deleteBlog, getBlog, getBlogs, uploadAuth } from '../controllers/blog.controller.js';
 
 const router = express.Router();
 
-router.get("/upload-auth", createBlog);
+router.get("/upload-auth", uploadAuth);
 router.get("/", getBlogs);
 router.get("/:slug", getBlog);
 router.post("/", createBlog);
-router.delete("/delete/:slug", createBlog);
+router.delete("/delete/:slug", deleteBlog);
 
 export default router;
