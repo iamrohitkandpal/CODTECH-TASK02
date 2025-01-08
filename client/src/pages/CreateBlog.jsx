@@ -41,7 +41,7 @@ const CreateBlog = () => {
     },
     onSuccess: (res) => {
       toast.success("Blog Created");
-      // navigate(`/${res.data.slug}`);
+      navigate(`/${res.data.slug}`);
     },
   });
 
@@ -49,7 +49,7 @@ const CreateBlog = () => {
     return <div className="">Loading...</div>;
   }
 
-  if (!isLoaded && !isSignedIn) {
+  if (!isSignedIn) {
     return <div className="">Please sign in to create a blog</div>;
   }
 
@@ -65,7 +65,6 @@ const CreateBlog = () => {
       content: content,
     };
 
-    console.log(data);
     mutation.mutate(data);
   };
 
@@ -73,13 +72,13 @@ const CreateBlog = () => {
     <div className="h-[calc(100vh-64px)] md:h-[calc(100vh-80px)] flex flex-col gap-6">
       <h1 className="text-xl font-light">Create a New Blog</h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-6 flex-1 mb-6">
-        <Upload type="image" setProgress={setProgress} setData={setCover}>
-          <button className="w-max p-2 shadow-md rounded-lg text-sm text-gray-500 bg-white">
+        <button type="button" className="w-max p-2 shadow-md rounded-lg text-sm text-gray-500 bg-white">
+          <Upload type="image" setProgress={setProgress} setData={setCover}>
             Add a Cover Image
-          </button>
-        </Upload>
+          </Upload>
+        </button>
         <input
-          className="text-4xl font-semibold bg-transparent outline-none"
+          className="text-4xl md:text-2xl font-semibold bg-transparent outline-none"
           type="text"
           placeholder="My Awesome Story"
           name="title"
@@ -111,10 +110,10 @@ const CreateBlog = () => {
         <div className="flex flex-1">
           <div className="flex flex-col gap-2 mr-2">
             <Upload type="image" setProgress={setProgress} setData={setImg}>
-              🖼️
+              <button type="button">🖼️</button>
             </Upload>
             <Upload type="video" setProgress={setProgress} setData={setVideo}>
-              🎦
+              <button type="button">🎦</button>
             </Upload>
           </div>
           <ReactQuill
