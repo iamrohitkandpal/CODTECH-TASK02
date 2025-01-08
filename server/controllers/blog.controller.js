@@ -6,8 +6,18 @@ dotenv.config();
 
 export const getBlogs = async (req, res) => {
   try {
-    const blogs = await Blog.find();
-    res.status(200).json(blogs);
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 2;
+
+    const blogs = await Blog.find()
+      .populate("user", "username")
+      .limit(limit)
+      .skip(limit * (page - 1));
+
+    const totalBlogs = await Blog.countDocuments();
+    const hasMore = page * limit < totalBlogs;
+
+    res.status(200).json({ blogs, hasMore });
   } catch (error) {
     console.log("Error in getBlogs Controller", error);
     res.status(500).json({ message: error.message });
@@ -16,7 +26,7 @@ export const getBlogs = async (req, res) => {
 
 export const getBlog = async (req, res) => {
   try {
-    const blog = await Blog.findById(req.params.id);
+    const blog = await Blog.findOne({ slug: req.params.slug }).populate("user", "username img");
     res.status(200).json(blog);
   } catch (error) {
     console.log("Error in getBlog Controller", error);
@@ -26,6 +36,8 @@ export const getBlog = async (req, res) => {
 
 export const createBlog = async (req, res) => {
   try {
+    // console.log("Request Body:", req.body);
+
     const clerkUserId = req.auth.userId;
 
     if (!clerkUserId) {
@@ -46,14 +58,21 @@ export const createBlog = async (req, res) => {
       slug = `${slug}-${counter}`;
       existingBlog = await Blog.findOne({ slug });
       counter++;
-    };
+    }
 
-    const newBlog = new Blog({ user: user._id, slug, ...req.body });
+    // Explicitly remove `id` from the request body if it exists
+    const { id, ...rest } = req.body;
+
+    const newBlog = new Blog({
+      user: user._id,
+      slug,
+      ...rest,
+    });
 
     await newBlog.save();
     res.status(201).json("Blog Created Successfully");
   } catch (error) {
-    console.log("Error in createBlog Controller", error);
+    console.error("Error in createBlog Controller:", error);
     res.status(500).json({ message: error.message });
   }
 };
