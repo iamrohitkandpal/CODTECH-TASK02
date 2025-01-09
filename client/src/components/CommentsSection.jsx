@@ -2,7 +2,7 @@ import React from 'react'
 import SingleComment from './SingleComment';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
-import { useAuth } from '@clerk/clerk-react';
+import { useAuth, useUser } from '@clerk/clerk-react';
 import { toast } from 'react-toastify';
 
 const fetchComments = async (postId) => {
@@ -11,6 +11,7 @@ const fetchComments = async (postId) => {
 }
 
 const CommentsSection = ({postId}) => {
+  const { user } = useUser();
   const { getToken } = useAuth();
   
   const { isPending, error, data } = useQuery({
@@ -37,8 +38,6 @@ const CommentsSection = ({postId}) => {
     },
   });
 
-  if(isPending) return "Loading...";
-
   const handleSubmit = (e) => {
     e.preventDefault(); // Prevent form from refreshing the page
     const formData = new FormData(e.target);
@@ -64,9 +63,26 @@ const CommentsSection = ({postId}) => {
             <textarea name="desc" rows="4" className='w-full p-4 outline-none resize-none rounded-xl' placeholder='Write a comment...'></textarea>
             <button className='bg-blue-800 px-4 py-3 text-white font-medium rounded-xl'>Send</button>
         </form>
-        {data.map((comment) => (
-          <SingleComment key={comment._id} comment={comment} />
-        ))}
+        {isPending 
+          ? "Loading Comments..." 
+          : error ? "Error Loading Comments" 
+          : <>
+              {mutation.isPending && (
+                <SingleComment comment={{
+                  desc: `${mutation.variables.desc} (Sending...)`,
+                  createdAt: new Date(),
+                  user: {
+                    img: user.imageUrl,
+                    username: user.username,
+                  }
+                }} />
+              )}
+
+              {data.map((comment) => (
+                <SingleComment key={comment._id} comment={comment} />
+              ))}
+            </>
+        }
     </div>
   )
 }

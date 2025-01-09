@@ -7,7 +7,6 @@ import CommentsSection from './../components/CommentsSection';
 import { useQuery } from '@tanstack/react-query';
 import axios from "axios";
 import { format } from 'timeago.js';
-import DOMPurify from 'dompurify';
 
 const fetchBlog = async (slug) => {
   const res = await axios.get(`${import.meta.env.VITE_BASE_API_URL}/blogs/${slug}`);
@@ -88,7 +87,7 @@ const SinglePostPage = () => {
             </div>
           </div>
 
-          <BlogSideMenu />
+          <BlogSideMenu post={data} />
           <h1 className="mt-8 mb-4 text-sm font-medium">Categories</h1>
           <div className="flex flex-col gap-2 text-sm">
             <Link className="underline">All</Link>
