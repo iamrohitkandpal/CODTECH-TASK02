@@ -6,8 +6,8 @@ dotenv.config();
 
 export const getBlogs = async (req, res) => {
   try {
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 2;
+    const page = Math.max(1, parseInt(req.query.page) || 1);
+    const limit = Math.max(1, parseInt(req.query.limit) || 2);
 
     const blogs = await Blog.find()
       .populate("user", "username")
@@ -85,6 +85,13 @@ export const deleteBlog = async (req, res) => {
       return res.status(401).json({ message: "Not Authenticated" });
     }
 
+    const role = req.auth.sessionClaims?.metadata?.role || "user";
+    
+    if(role === "admin") {
+      await Blog.findByIdAndDelete(req.params.id);
+      return res.status(200).json("Blog Deleted Successfully");
+    }
+
     const user = await User.findOne({ clerkUserId });
 
     const deletedBlog = await Blog.findByIdAndDelete({
@@ -101,6 +108,10 @@ export const deleteBlog = async (req, res) => {
     console.log("Error in deleteBlog Controller", error);
     res.status(500).json({ message: error.message });
   }
+};
+
+export const featurePost = async (req, res) => {
+
 };
 
 const imagekit = new ImageKit({

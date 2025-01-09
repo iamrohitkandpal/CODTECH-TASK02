@@ -18,13 +18,13 @@ export const addComment = async (req, res) => {
   try {
     const clerkUserId = req.auth.userId;
     const postId = req.params.postId;
-    
+
     if (!clerkUserId) {
       return res.status(401).json({ message: "Not Authenticated" });
     }
-    
+
     const user = await User.findOne({ clerkUserId });
-    
+
     const newComment = new Comment({
       ...req.body,
       user: user._id,
@@ -33,7 +33,9 @@ export const addComment = async (req, res) => {
 
     const savedComment = await newComment.save();
 
-    res.status(201).json(savedComment);
+    setTimeout(() => {
+      res.status(201).json(savedComment);
+    }, 3000);
   } catch (error) {
     console.log("Error in addComment: " + error);
     res.status(500).json({ message: "Internal Server Error" });
@@ -47,6 +49,13 @@ export const deleteComment = async (req, res) => {
 
     if (!clerkId) {
       return res.status(401).json({ message: "Not Authenticated" });
+    }
+
+    const role = req.auth.sessionClaims?.metadata?.role || "user";
+
+    if (role === "admin") {
+      await Comment.findByIdAndDelete(req.params.id);
+      return res.status(200).json("Comment Deleted Successfully");
     }
 
     const user = await User.findOne({ clerkUserId });

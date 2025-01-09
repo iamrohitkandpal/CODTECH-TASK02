@@ -23,7 +23,7 @@ if (!process.env.MONGODB_URI) {
 app.use(
   cors({
     origin: process.env.CLIENT_BASE_URL, // Frontend URL
-    methods: "GET,POST,PUT,DELETE",
+    methods: "GET,POST,PUT,DELETE,PATCH",
     allowedHeaders: "Content-Type,Authorization",
   })
 );
