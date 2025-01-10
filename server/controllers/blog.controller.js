@@ -9,8 +9,57 @@ export const getBlogs = async (req, res) => {
     const page = Math.max(1, parseInt(req.query.page) || 1);
     const limit = Math.max(1, parseInt(req.query.limit) || 2);
 
-    const blogs = await Blog.find()
+    const query = {};
+
+    const cat = req.query.cat || "";
+    const searchQuery = req.query.search || "";
+    const author = req.query.author;
+    const sortQuery = req.query.sort;
+    const featured = req.query.featured;
+
+    if (cat) {
+      query.category = cat;
+    }
+    if (searchQuery) {
+      query.title = { $regex: searchQuery, $options: "i" };
+    }
+    if (author) {
+      const user = await User.findOne({ username: author }).select("_id");
+      if (!user) {
+        return res.status(404).json("No post found!");
+      }
+      query.user = user._id;
+    }
+
+    let sortObj = { createdAt: -1 };
+    if (sortQuery) {
+      switch (sortQuery) {
+        case "newest":
+          sortObj = { createdAt: -1 };
+          break;
+        case "oldest":
+          sortObj = { createdAt: 1 };
+          break;
+        case "popular":
+          sortObj = { visit: -1 };
+          break;
+        case "trending":
+          sortObj = { visit: -1 };
+          query.createdAt = {
+            $gte: new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000),
+          };
+          break;
+        default:
+          break;
+      }
+    }
+    if (featured) {
+      query.isFeatured = true;
+    }
+
+    const blogs = await Blog.find(query)
       .populate("user", "username")
+      .sort(sortObj)
       .limit(limit)
       .skip(limit * (page - 1));
 
@@ -26,7 +75,10 @@ export const getBlogs = async (req, res) => {
 
 export const getBlog = async (req, res) => {
   try {
-    const blog = await Blog.findOne({ slug: req.params.slug }).populate("user", "username img");
+    const blog = await Blog.findOne({ slug: req.params.slug }).populate(
+      "user",
+      "username img"
+    );
     res.status(200).json(blog);
   } catch (error) {
     console.log("Error in getBlog Controller", error);
@@ -86,8 +138,8 @@ export const deleteBlog = async (req, res) => {
     }
 
     const role = req.auth.sessionClaims?.metadata?.role || "user";
-    
-    if(role === "admin") {
+
+    if (role === "admin") {
       await Blog.findByIdAndDelete(req.params.id);
       return res.status(200).json("Blog Deleted Successfully");
     }
@@ -110,8 +162,40 @@ export const deleteBlog = async (req, res) => {
   }
 };
 
-export const featurePost = async (req, res) => {
+export const featureBlog = async (req, res) => {
+  try {
+    const clerkUserId = req.auth.userId;
+    const blogId = req.body.postId;
 
+    if (!clerkUserId) {
+      return res.status(401).json({ message: "Not Authenticated" });
+    }
+
+    const role = req.auth.sessionClaims?.metadata?.role || "user";
+
+    if (role !== "admin") {
+      return res.status(403).json("Only Admins can feature blogs!");
+    }
+
+    const blog = await Blog.findById(blogId);
+
+    if (!blog) {
+      return res.status(404).json("Blog not found");
+    }
+
+    const isFeatured = blog.isFeatured;
+
+    const updatedBlog = await Blog.findByIdAndUpdate(
+      blogId,
+      { isFeatured: !isFeatured },
+      { new: true }
+    );
+
+    res.status(200).json(updatedBlog);
+  } catch (error) {
+    console.log("Error in featureBlog Controller", error);
+    res.status(500).json({ message: error.message });
+  }
 };
 
 const imagekit = new ImageKit({
