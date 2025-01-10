@@ -26,7 +26,7 @@ const BlogListItem = ({ blog }) => {
         </Link>
         <div className="flex items-center gap-2 text-gray-500 text-sm">
           <span>Written by</span>
-          <Link className="text-blue-800">
+          <Link className="text-blue-800" to={`/blogs?author=${blog.user.username}`}>
             {blog.user.username.charAt(0).toUpperCase() + blog.user.username.slice(1)}
           </Link>
           <span>on</span>

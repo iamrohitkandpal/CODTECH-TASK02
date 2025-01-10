@@ -66,9 +66,9 @@ const SinglePostPage = () => {
 
         {/*side-menu*/}
         <div className='px-4 h-max sticky top-8'>
-          <h1 className='mb-4 text-sm font-medium'>Author</h1>
+          <h1 className='mb-4 text-base font-medium'>Author</h1>
           <div className='flex flex-col gap-4'>
-            <div className='flex items-center gap-8'>
+            <div className='flex items-center gap-4'>
               {data.user.img && (
                 <img src={data.user.img} className="w-12 h-12 rounded-full object-cover" />
               )}

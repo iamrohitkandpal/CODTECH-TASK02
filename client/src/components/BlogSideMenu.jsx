@@ -25,6 +25,7 @@ const BlogSideMenu = ({ post }) => {
   });  
   
   const isAdmin = user?.publicMetadata?.role === "admin" || false;
+  
   const isSaved = Array.isArray(savedBlogs) && savedBlogs.some((blog) => blog === post._id);
 
   const deleteMutation = useMutation({
@@ -65,6 +66,26 @@ const BlogSideMenu = ({ post }) => {
     }
   });
 
+  const featureMutation = useMutation({
+    mutationFn: async () => {
+      const token = await getToken();
+      return axios.patch(`${import.meta.env.VITE_BASE_API_URL}/blogs/featureBlog`, {
+        postId: post._id,
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["blog", post.slug] });
+      toast.success("Post Featured");
+    },
+    onError: () => {
+      toast.error("Post Featuring Failed");
+    }
+  });
+
   const handleDelete = () => {
     if (window.confirm("Are you sure you want to delete this post?")) {
       console.log("Deleting post with ID:", post._id);
@@ -77,6 +98,13 @@ const BlogSideMenu = ({ post }) => {
       return navigate("/login");
     }
     saveMutation.mutate();
+  };
+
+  const handleFeature = () => {
+    if(!user) {
+      return navigate("/login");
+    }
+    featureMutation.mutate();
   };
 
   if (isLoading) return "Loading...";
@@ -104,6 +132,28 @@ const BlogSideMenu = ({ post }) => {
           <span>Save this Blog</span>
           {saveMutation.isPending && (
             <span className="text-xs">(in progress)</span>
+          )}
+        </div>
+      )}
+
+      {isAdmin && (
+        <div className="flex items-center text-sm gap-2 py-2 cursor-pointer" onClick={handleFeature}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 48 48"
+            width="20px"
+            height="20px"
+          >
+            <path
+              d="M24 2L29.39 16.26L44 18.18L33 29.24L35.82 44L24 37L12.18 44L15 29.24L4 18.18L18.61 16.26L24 2Z"
+              stroke="black"
+              strokeWidth="2"
+              fill={featureMutation.isPending ? post.isFeatured ? "none": "black" : post.isFeatured ? "black" : "none"}
+            />
+          </svg>
+          <span>Feature this Blog</span>
+          {featureMutation.isPending && (
+            <span className="text-sm">(In Progress)</span>
           )}
         </div>
       )}
