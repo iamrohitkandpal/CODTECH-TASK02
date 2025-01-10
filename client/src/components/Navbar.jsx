@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import Image from "./Image";
 import { Link } from "react-router-dom";
 import { SignedIn, SignedOut, useAuth, UserButton } from "@clerk/clerk-react";
+import BlogsList from "./BlogsList";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
 
   return (
     <div className="w-full h-16 md:h-20 flex items-center justify-between">
-
       {/* LOGO SECTION */}
       <Link to="/" className="flex items-center gap-4 text-2xl font-bold">
         <Image src="logo.png" alt="Blog Logo" w={32} h={32} />
@@ -29,9 +29,9 @@ const Navbar = () => {
           }`}
         >
           <Link to="/">Home</Link>
-          <Link to="/">Trending</Link>
-          <Link to="/">Most Popular</Link>
-          <Link to="/">About</Link>
+          <Link to="/blogs?sort=trending">Trending</Link>
+          <Link to="/blogs?featured">Featured Blogs</Link>
+          <Link to="/about">About</Link>
           <SignedOut>
             <Link to="/login">
               <button className="py-2 px-4 rounded-3xl bg-blue-800 text-white">
@@ -48,9 +48,9 @@ const Navbar = () => {
       {/* DESKTOP MENU SECTION */}
       <div className="hidden md:flex items-center gap-8 xl:gap-12 font-medium">
         <Link to="/">Home</Link>
-        <Link to="/">Trending</Link>
-        <Link to="/">Most Popular</Link>
-        <Link to="/">About</Link>
+        <Link to="/blogs?sort=trending">Trending</Link>
+        <Link to="/blogs?featured=true">Featured Blogs</Link>
+        <Link to="/about">About</Link>
         <SignedOut>
           <Link to="/login">
             <button className="py-2 px-4 rounded-3xl bg-blue-800 text-white">
