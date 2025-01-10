@@ -47,7 +47,7 @@ export const deleteComment = async (req, res) => {
     const clerkUserId = req.auth.userId;
     const id = req.params.id;
 
-    if (!clerkId) {
+    if (!clerkUserId) {
       return res.status(401).json({ message: "Not Authenticated" });
     }
 
