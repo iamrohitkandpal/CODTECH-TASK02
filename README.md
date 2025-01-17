@@ -1,179 +1,243 @@
 # MERNWrite App - A Blogging Platform in Development
 
-**MERNWrite** is a full-stack blogging application crafted using the MERN stack (**MongoDB, Express, React, Node.js**). It empowers users to create, read, update, and delete blog posts, engage with comments, and enjoy user-friendly authentication and authorization powered by Clerk. 
+![image](https://github.com/user-attachments/assets/36841f92-05a5-43e0-b547-5a0ced757494)
 
-> **Note:** This is an **ongoing project** with some features under development and known issues to resolve.
+## **Project Details**  
+
+### Developer Information  
+- **Name:** Rohit Navinchandra Kandpal  
+- **Company:** CODTECH IT SOLUTIONS PVT. LTD.  
+- **Employee ID:** CT08DHC  
+- **Domain:** Full Stack Web Development  
+
+### Internship Duration  
+- **Start Date:** 20th December 2024  
+- **End Date:** 20th January 2025  
+
+### Mentor  
+- **Name:** Neela Santhosh Kumar  
+
+This project is part of my professional journey at CODTECH IT SOLUTIONS, showcasing my expertise in full-stack web development and dedication to building innovative solutions under expert guidance.  
 
 ---
 
-## ✨ Key Highlights
-
-1. **Rich Blogging Features**: Users can create, edit, and manage blog posts seamlessly.
-2. **Modern Design**: Tailwind CSS ensures a clean, responsive user interface.
-3. **Real-time Collaboration**: Features like comments enable users to engage directly.
-4. **Secure Authentication**: Clerk provides user management and role-based access.
-5. **Optimized Media Handling**: ImageKit powers fast, secure, and optimized media uploads.
+**MERNWrite** is a full-stack blogging application built with the **MERN stack** (MongoDB, Express, React, Node.js). It allows users to create, read, update, and delete blog posts, as well as comment on them. The app features user authentication and authorization via **Clerk**, as well as real-time image optimization and transformation using **ImageKit**.
 
 ---
 
-## 📚 Features in Progress
+## 🚀 Project Overview
 
-- **Bugs to Resolve:**
-  - Comments are sometimes not updating in real-time.
-  - Infinite scroll occasionally fails for large datasets.
-  - The "Save Blog" feature may not reflect changes immediately.
-  - Webhook integrations need testing for reliability.
-  
-- **Upcoming Features:**
-  - **User Profiles**: Personalized user pages to showcase individual blog posts.
-  - **Social Media Sharing**: Share blogs directly to platforms like Twitter, LinkedIn, etc.
-  - **Draft Management**: Save blog drafts for future editing.
-  - **Advanced Analytics**: Insights into blog views, likes, and comments.
-  - **Admin Dashboard**: Role-based access to manage blogs and comments.
+This is an **ongoing project**, currently under active development. While key functionalities such as blog CRUD operations and authentication are working, **several bugs** need to be resolved, and **additional features** will be added in upcoming updates. These include but are not limited to:
+
+- Enhanced commenting system with better moderation controls
+- Advanced image editing features
+- More robust error handling and validations
+- Optimizations for scalability and performance
+
+Feel free to explore the project, report issues, and contribute!
 
 ---
 
 ## 🛠️ Technologies Used
 
-### Frontend Stack:
-- **React**: For dynamic user interface components.
-- **Vite**: Ensures fast builds and an optimized developer experience.
-- **Tailwind CSS**: For a responsive and visually appealing design.
-- **Axios**: Manages API calls between the frontend and backend.
-- **React Router**: Navigation between different views.
-- **React Query**: Simplifies data fetching and caching.
-- **Clerk**: Handles authentication and user sessions.
-- **ImageKit**: Real-time image optimization and CDN.
+### Frontend
 
-### Backend Stack:
-- **Node.js**: Core runtime for backend operations.
-- **Express**: Simplifies routing and middleware handling.
-- **MongoDB**: The database for structured and unstructured data.
-- **Mongoose**: Object Data Modeling (ODM) for MongoDB.
-- **Clerk**: Manages backend user authentication.
-- **ImageKit**: For secure and optimized media management.
-- **Svix**: Powers webhook integrations.
+- **React**: A popular JavaScript library for building user interfaces.
+- **Vite**: A modern build tool that provides a faster development experience.
+- **Tailwind CSS**: A utility-first CSS framework for rapid UI development.
+- **Axios**: A promise-based HTTP client for making requests.
+- **React Query**: Provides hooks for fetching, caching, and syncing data in React.
+- **React Router**: A declarative routing library for React applications.
+- **Clerk**: Authentication and user management service.
+- **ImageKit**: Real-time image optimization and transformation.
+- **React Quill**: A rich text editor for creating blog posts with formatting.
+
+### Backend
+
+- **Node.js**: A JavaScript runtime built on Chrome's V8 engine.
+- **Express**: A minimal and flexible Node.js web application framework.
+- **MongoDB**: A NoSQL database for storing blog posts and comments.
+- **Mongoose**: ODM (Object Data Modeling) library for MongoDB.
+- **Clerk**: Handles user authentication and authorization.
+- **ImageKit**: Real-time image optimization.
+- **Svix**: Webhooks as a service to handle events like user creation.
 
 ---
 
-## 🗂️ Project Directory Structure
+## 📂 Project Structure
 
+```plaintext
+MERNWrite App/
+│
+├── client/                         # Frontend code
+│   ├── .env                        # Environment variables for frontend
+│   ├── .gitignore                  # Git ignore file for client
+│   ├── index.html                  # Main HTML file
+│   ├── package.json                # Frontend dependencies
+│   ├── postcss.config.js           # PostCSS config for Tailwind
+│   ├── public/                     # Public assets
+│   ├── src/                        # Source code
+│   │   ├── App.jsx                 # Main React component
+│   │   ├── components/             # Reusable components
+│   │   ├── index.css               # Global CSS
+│   │   ├── layouts/                # Layouts for pages
+│   │   ├── main.jsx                # Main entry point for React
+│   │   ├── pages/                  # React pages
+│   ├── tailwind.config.js          # Tailwind CSS configuration
+│   ├── vite.config.js              # Vite configuration
+│
+├── server/                         # Backend code
+│   ├── .env                        # Environment variables for backend
+│   ├── .gitignore                  # Git ignore file for server
+│   ├── controllers/                # Controllers for route logic
+│   ├── index.js                    # Main entry point for server
+│   ├── lib/                        # Utility functions
+│   ├── middlewares/                # Custom middleware for requests
+│   ├── models/                     # Mongoose models (blog, user, etc.)
+│   ├── package.json                # Server dependencies
+│   ├── routes/                     # API routes for blog and user actions
+└── README.md                       # Project documentation
 ```
-MERNWrite/
-│
-├── client/
-│   ├── .env
-│   ├── public/
-│   ├── src/
-│   │   ├── components/
-│   │   ├── layouts/
-│   │   ├── pages/
-│   │   ├── redux/
-│   │   ├── utils/
-│   ├── package.json
-│   └── vite.config.js
-│
-├── server/
-│   ├── .env
-│   ├── controllers/
-│   ├── models/
-│   ├── routes/
-│   ├── middlewares/
-│   ├── package.json
-│   └── index.js
-│
-└── README.md
+
+---
+
+## 📥 Installation
+
+### Clone the Repository
+
+```bash
+git clone https://github.com/yourusername/MERNWrite.git
+cd MERNWrite
+```
+
+### Install Dependencies
+
+Install the client-side dependencies:
+
+```bash
+cd client
+npm install
+```
+
+Install the server-side dependencies:
+
+```bash
+cd ../server
+npm install
 ```
 
 ---
 
-## 🚀 Setting Up the Project
+## ⚙️ Environment Variables
 
-1. Clone the repository:
-   ```
-   git clone https://github.com/yourusername/MERNWrite.git
-   cd MERNWrite
-   ```
+### Client
 
-2. Install dependencies:
-   ```
-   cd client
-   npm install
-   cd ../server
-   npm install
-   ```
+Create a `.env` file in the `client` folder and add the following:
 
-3. Set up environment variables:
-   - **Frontend (.env):**
-     ```
-     VITE_BASE_API_URL=http://localhost:9000
-     VITE_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
-     VITE_IK_PUBLIC_KEY=your_imagekit_public_key
-     VITE_IK_URL_ENDPOINT=your_imagekit_url_endpoint
-     ```
+```bash
+VITE_BASE_API_URL=http://localhost:9000
+VITE_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
+VITE_IK_PUBLIC_KEY=your_imagekit_public_key
+VITE_IK_URL_ENDPOINT=your_imagekit_url_endpoint
+```
 
-   - **Backend (.env):**
-     ```
-     MONGODB_URI=your_mongodb_uri
-     CLERK_SECRET=your_clerk_secret
-     IK_URL_ENDPOINT=your_imagekit_url_endpoint
-     IK_PUBLIC_KEY=your_imagekit_public_key
-     IK_PRIVATE_KEY=your_imagekit_private_key
-     CLIENT_BASE_URL=http://localhost:3000
-     PORT=9000
-     ```
+### Server
 
-4. Start the application:
-   - **Backend**: 
-     ```
-     cd server
-     npm run dev
-     ```
-   - **Frontend**:
-     ```
-     cd client
-     npm run dev
-     ```
+Create a `.env` file in the `server` folder and add the following:
+
+```bash
+MONGODB_URI=your_mongodb_uri
+CLERK_SECRET=your_clerk_secret
+IK_URL_ENDPOINT=your_imagekit_url_endpoint
+IK_PUBLIC_KEY=your_imagekit_public_key
+IK_PRIVATE_KEY=your_imagekit_private_key
+CLIENT_BASE_URL=http://localhost:3000
+PORT=9000
+```
 
 ---
 
-## 🧰 Core Functionalities
+## 🚀 Running the Application
 
-### APIs
+1. Start the **server**:
 
-#### **User Management**
-- `GET /users/saved`: Retrieve saved blogs.
-- `PATCH /users/save`: Save or unsave a blog post.
+```bash
+cd server
+npm run dev
+```
 
-#### **Blog Operations**
-- `GET /blogs`: Retrieve all blogs (supports filtering and sorting).
-- `POST /blogs`: Create a new blog.
-- `DELETE /blogs/delete/:id`: Delete a specific blog post.
+2. Start the **client**:
 
-#### **Comment Operations**
-- `GET /comments/:postId`: Fetch comments for a blog.
-- `POST /comments/:postId`: Add a comment to a blog.
+```bash
+cd client
+npm run dev
+```
 
----
-
-## 📝 Contribution Guidelines
-
-1. Fork the repository and create a new branch for your feature or fix.
-2. Test your changes thoroughly before creating a pull request.
-3. Ensure code adheres to the project's style guidelines.
-
-We welcome all contributions! For any queries, open an issue on the repository or contact the maintainers.
+Visit the application in your browser at `http://localhost:3000`.
 
 ---
 
-## 📜 License
+## 📡 API Endpoints
 
-This project is licensed under the **MIT License**. Feel free to use and modify it for your own projects.
+### User Routes
+
+- **GET** `/users/saved` - Get saved blogs for the authenticated user.
+- **PATCH** `/users/save` - Save or unsave a blog post.
+
+### Blog Routes
+
+- **GET** `/blogs` - Get all blogs with optional filters (category, search, author, sort, featured).
+- **GET** `/blogs/:slug` - Get a single blog by slug.
+- **POST** `/blogs` - Create a new blog post.
+- **DELETE** `/blogs/delete/:id` - Delete a blog post by ID.
+- **PATCH** `/blogs/featureBlog` - Feature or unfeature a blog post.
+
+### Comment Routes
+
+- **GET** `/comments/:postId` - Get comments for a blog post.
+- **POST** `/comments/:postId` - Add a comment to a blog post.
+- **DELETE** `/comments/:id` - Delete a comment by ID.
+
+### Webhook Routes
+
+- **POST** `/webhooks/clerk` - Handle Clerk webhooks.
 
 ---
 
-### For any support or queries, reach out at `support@mernwrite.com`. 🚀
+## 📱 Client Features
+
+- **Home Page**: Displays featured posts and recent blogs.
+- **Blog List**: Infinite scrolling with filters (category, author, sort) and search functionality.
+- **Single Blog Page**: Displays a detailed view of a blog post, with comments and actions (save, feature, delete).
+- **Create Blog**: Form to create a new blog post with a rich text editor and image/video upload.
+- **Authentication**: User authentication via **Clerk**.
+- **Responsive Design**: Mobile-friendly, responsive UI built with **Tailwind CSS**.
 
 ---
 
-This enhanced version adds better visibility with clearly defined sections and details for contributors and collaborators. Let me know if you'd like further tweaks!
+## 💻 Server Features
+
+- **Authentication**: Middleware for protected routes using **Clerk**.
+- **CRUD Operations**: Complete CRUD functionality for blog posts and comments.
+- **Image Handling**: Upload, transform, and optimize images using **ImageKit**.
+- **Webhooks**: Handle Clerk webhooks for user-related events.
+- **Database**: MongoDB as the backend database with **Mongoose** ORM.
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions! If you'd like to contribute to this project:
+
+1. Fork the repository.
+2. Create a new branch for your feature/bug fix.
+3. Commit your changes and push them to your fork.
+4. Submit a pull request with a description of your changes.
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License**.
+
+---
